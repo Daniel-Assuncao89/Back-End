@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,5 +64,16 @@ public class TesteService {
 
         System.out.println(projeto1.hashCode());
         System.out.println(projeto2.hashCode());
+
+        List<Projeto> projetos = new ArrayList<>();
+        projetos.add(projeto1);
+        projetos.add(projeto2);
+        System.out.println(projetos);
+
+        Projeto projeto3 = new Projeto(1, "campanha I", 2500.0, "Descrição top");
+
+        projetos.remove(projeto3); //remove o primeiro projeto q encontrar com o mesmo ID, devido ao Override do metodo .equals
+
+        System.out.println(projetos);
     }
 }
