@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,19 +19,7 @@ public class Plataforma {
     @JoinColumn(name = "id_jogo")
     private Jogo jogo;
 
-    @ManyToMany(mappedBy = "linkPlataforma", fetch = FetchType.LAZY)
-    private List<Publisher> linkPublisher;
-
-
     Plataforma (){}
-
-    public Plataforma(Integer idPlataforma, String plataformaNome, String plataformaLancamento, Jogo jogo, List<Publisher> linkPublisher) {
-        this.idPlataforma = idPlataforma;
-        this.plataformaNome = plataformaNome;
-        this.plataformaLancamento = plataformaLancamento;
-        this.jogo = jogo;
-        this.linkPublisher = linkPublisher;
-    }
 
     public Plataforma(Integer idPlataforma, String plataformaNome, String plataformaLancamento, Jogo jogo) {
         this.idPlataforma = idPlataforma;
@@ -71,11 +60,16 @@ public class Plataforma {
         this.jogo = jogo;
     }
 
-    public List<Publisher> getLinkPublisher() {
-        return linkPublisher;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plataforma that = (Plataforma) o;
+        return idPlataforma.equals(that.idPlataforma);
     }
 
-    public void setLinkPublisher(List<Publisher> linkPublisher) {
-        this.linkPublisher = linkPublisher;
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPlataforma);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,22 +22,10 @@ public class Publisher {
     @Column(nullable = false, length = 10)
     private String publisherFoundation;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "publisher_plataforma",
-            joinColumns = @JoinColumn(name = "publisher_id", referencedColumnName = "idPublisher"),
-            inverseJoinColumns = @JoinColumn(name = "plataforma_id", referencedColumnName = "idPlataforma"))
-    private List<Plataforma> linkPlataforma;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Plataforma> linkPlataforma = new ArrayList<>();
 
     public Publisher(){}
-
-    public Publisher(Integer idPublisher, String publishername, String publisherLocal, String publisherFoundation, List<Plataforma> linkPlataforma) {
-        this.idPublisher = idPublisher;
-        this.publishername = publishername;
-        this.publisherLocal = publisherLocal;
-        this.publisherFoundation = publisherFoundation;
-        this.linkPlataforma = linkPlataforma;
-    }
 
     public Publisher(Integer idPublisher, String publisherName, String publisherLocal, String publisherFoundation) {
         this.idPublisher = idPublisher;

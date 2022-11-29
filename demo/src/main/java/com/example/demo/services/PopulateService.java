@@ -11,6 +11,8 @@ import com.example.demo.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PopulateService {
     @Autowired
@@ -52,5 +54,12 @@ public class PopulateService {
         this.desenvolvedorRepository.save(dev2);
         this.desenvolvedorRepository.save(dev3);
         this.desenvolvedorRepository.save(dev4);
+
+        p1.getLinkPlataforma().add(plat1);
+        p1.getLinkPlataforma().add(plat2);
+        p2.getLinkPlataforma().add(plat3);
+        p2.getLinkPlataforma().add(plat1);
+
+        this.publisherRepository.saveAll(List.of(p1,p2));
     }
 }
