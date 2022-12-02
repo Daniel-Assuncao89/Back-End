@@ -8,6 +8,7 @@ import org.soulcodeacademy.empresa.domain.dto.EmpregadoDTO;
 import org.soulcodeacademy.empresa.domain.dto.EnderecoDTO;
 import org.soulcodeacademy.empresa.repositories.EmpregadoRepository;
 import org.soulcodeacademy.empresa.repositories.EnderecoRepository;
+import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +26,13 @@ public class EmpregadoService {
     @Autowired
     private ProjetoService projetoService;
 
-    @Autowired
-    private DependenteService dependenteService;
 
     public List<Empregado> listar() {
         return this.empregadoRepository.findAll();
     }
 
     public Empregado getEmpregado(Integer idEmpregado) {
-        return this.empregadoRepository.findById(idEmpregado).orElseThrow(() -> new RuntimeException("Empregado não encontrado"));
+        return this.empregadoRepository.findById(idEmpregado).orElseThrow(() -> new RecursoNaoEncontradoError("Empregado não encontrado"));
     }
 
     public Empregado salvar(EmpregadoDTO dto){

@@ -4,6 +4,7 @@ import org.soulcodeacademy.empresa.domain.Endereco;
 import org.soulcodeacademy.empresa.domain.dto.EnderecoDTO;
 import org.soulcodeacademy.empresa.repositories.EmpregadoRepository;
 import org.soulcodeacademy.empresa.repositories.EnderecoRepository;
+import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class EnderecoService {
     }
 
     public Endereco getEndereco(Integer idEndereco){
-        return this.enderecoRepository.findById(idEndereco).orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+        return this.enderecoRepository.findById(idEndereco).orElseThrow(() -> new RecursoNaoEncontradoError("Endereço não encontrado"));
     }
 
     public Endereco salvar(EnderecoDTO dto){

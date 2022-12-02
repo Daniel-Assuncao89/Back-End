@@ -3,11 +3,11 @@ package org.soulcodeacademy.empresa.service;
 import org.soulcodeacademy.empresa.domain.Projeto;
 import org.soulcodeacademy.empresa.domain.dto.ProjetoDTO;
 import org.soulcodeacademy.empresa.repositories.ProjetoRepository;
+import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjetoService {
@@ -20,7 +20,7 @@ public class ProjetoService {
     }
 
     public Projeto getProjeto(Integer idProjeto){
-        return this.projetoRepository.findById(idProjeto).orElseThrow(() -> new RuntimeException("Projeto não encontrado"));
+        return this.projetoRepository.findById(idProjeto).orElseThrow(() -> new RecursoNaoEncontradoError("Projeto não encontrado"));
     }
 
     public Projeto salvar(ProjetoDTO dto){
