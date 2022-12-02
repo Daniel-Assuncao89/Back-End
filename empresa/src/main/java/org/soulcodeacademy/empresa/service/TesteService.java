@@ -59,6 +59,7 @@ public class TesteService {
         empregado1.getProjetos().add(projeto1); // O empregado1 participa do projeto1
         empregado1.getProjetos().add(projeto2); // O empregado1 participa do projeto2
         empregado2.getProjetos().add(projeto2); // O empregado2 participa do projeto2
+        empregado3.getProjetos().add(projeto2); // O empregado2 participa do projeto2
 
         this.empregadoRepository.saveAll(List.of(empregado1, empregado2, empregado3));
 
