@@ -8,8 +8,10 @@ import org.soulcodeacademy.empresa.domain.dto.EmpregadoDTO;
 import org.soulcodeacademy.empresa.domain.dto.EnderecoDTO;
 import org.soulcodeacademy.empresa.repositories.EmpregadoRepository;
 import org.soulcodeacademy.empresa.repositories.EnderecoRepository;
+import org.soulcodeacademy.empresa.service.errors.ParametrosInsuficientesError;
 import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,9 +33,20 @@ public class EmpregadoService {
         return this.empregadoRepository.findAll();
     }
 
+    public List<Empregado> listarPorEndereco(Integer idEndereco){
+        Endereco endereco = enderecoService.getEndereco(idEndereco);
+
+        return  empregadoRepository.findByEndereco(endereco);
+    }
+
+    public List<Empregado> listarPorProjeto(){
+        return empregadoRepository.findByProjeto();
+    }
+
     public Empregado getEmpregado(Integer idEmpregado) {
         return this.empregadoRepository.findById(idEmpregado).orElseThrow(() -> new RecursoNaoEncontradoError("Empregado não encontrado"));
     }
+
 
     public Empregado salvar(EmpregadoDTO dto){
         Endereco endereco = enderecoService.getEndereco(dto.getIdEndereco());

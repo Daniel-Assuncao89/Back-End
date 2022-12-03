@@ -4,8 +4,10 @@ import org.soulcodeacademy.empresa.domain.Dependente;
 import org.soulcodeacademy.empresa.domain.Empregado;
 import org.soulcodeacademy.empresa.domain.dto.DependenteDTO;
 import org.soulcodeacademy.empresa.repositories.DependenteRepository;
+import org.soulcodeacademy.empresa.service.errors.ParametrosInsuficientesError;
 import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +25,18 @@ public class DependenteService {
         return this.dependenteRepository.findAll();
     }
 
+    public List<Dependente> listarPorEmpregado(Integer idEmpregado){
+        Empregado empregado = empregadoService.getEmpregado(idEmpregado);
+
+        return dependenteRepository.findByResponsavel(empregado);
+    }
+
     public Dependente getDependente(Integer idDependente){
         return this.dependenteRepository.findById(idDependente).orElseThrow(() -> new RecursoNaoEncontradoError("Dependente não encontrado"));
     }
 
     public Dependente salvar(DependenteDTO dto){
+
         Dependente dependente = new Dependente(null, dto.getNome(), dto.getIdade());
 
         Empregado empregado = empregadoService.getEmpregado(dto.getIdResponsavel());
@@ -38,6 +47,9 @@ public class DependenteService {
     }
 
     public Dependente atualizar(Integer idDependente, DependenteDTO dto){
+        if(dto.getIdResponsavel() == null){
+            throw new ParametrosInsuficientesError("id é obrigatório");
+        }
         Dependente dependente = this.getDependente(idDependente);
 
         Empregado empregado = empregadoService.getEmpregado(dto.getIdResponsavel());

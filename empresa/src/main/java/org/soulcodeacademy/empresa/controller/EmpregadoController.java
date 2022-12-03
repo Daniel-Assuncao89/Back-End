@@ -17,14 +17,24 @@ public class EmpregadoController {
 
     @GetMapping("/empregados")
     private List<Empregado> listar(){
+        return this.empregadoService.listar();
+    }
 
-        return  this.empregadoService.listar();
+    @GetMapping("/empregados/projetos")
+    public List<Empregado> listarPorProjeto(){
+        return empregadoService.listarPorProjeto();
     }
 
     @GetMapping("/empregados/{idEmpregado}")
     private Empregado getEmpregado(@PathVariable Integer idEmpregado){
         return  this.empregadoService.getEmpregado(idEmpregado);
     }
+
+    @GetMapping("/empregados/endereco")
+    public List<Empregado> listarPorEndereco(@RequestParam Integer idEndereco){
+        return empregadoService.listarPorEndereco(idEndereco);
+    }
+
 
     @PostMapping("/empregados")
     private Empregado salvar(@Valid @RequestBody EmpregadoDTO dto){

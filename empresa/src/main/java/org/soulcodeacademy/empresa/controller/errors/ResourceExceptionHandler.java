@@ -1,10 +1,12 @@
 package org.soulcodeacademy.empresa.controller.errors;
 
+import org.soulcodeacademy.empresa.service.errors.ParametrosInsuficientesError;
 import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -24,16 +26,28 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @ExceptionHandler(ParametrosInsuficientesError.class)
+    public ResponseEntity<CustomErrorResponse> parametrosInsuficientesError(ParametrosInsuficientesError erro , HttpServletRequest request) {
+        CustomErrorResponse response = new CustomErrorResponse();
 
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public ResponseEntity<CustomErrorResponse> badCredentialsException(BadCredentialsException erro, HttpServletRequest request){
-//        CustomErrorResponse response = new CustomErrorResponse();
-//
-//        response.setTimestamp(LocalDateTime.now());
-//        response.setStatus(HttpStatus.FORBIDDEN.value()); // 403 codigo
-//        response.setMessage("Email/senha invalidos");
-//        response.setPath(request.getRequestURI());
-//
-//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
-//    }
+        response.setTimestamp(LocalDateTime.now());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setMessage(erro.getMessage());
+        response.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<CustomErrorResponse> badCredentialsException(BadCredentialsException erro, HttpServletRequest request){
+       CustomErrorResponse response = new CustomErrorResponse();
+
+        response.setTimestamp(LocalDateTime.now());
+        response.setStatus(HttpStatus.FORBIDDEN.value()); // 403 codigo
+        response.setMessage("Email/senha invalidos");
+        response.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
 }

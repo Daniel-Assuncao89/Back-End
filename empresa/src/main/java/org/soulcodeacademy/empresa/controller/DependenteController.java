@@ -24,6 +24,11 @@ public class DependenteController {
         return dependenteService.getDependente(idDependente);
     }
 
+    @GetMapping("/dependentes/empregado")
+    public List<Dependente> listarPorEmpregado(@RequestParam Integer idEmpregado){
+        return  dependenteService.listarPorEmpregado(idEmpregado);
+    }
+
     @PostMapping("/dependentes")
     private Dependente salvar(@Valid @RequestBody DependenteDTO dto){
         return dependenteService.salvar(dto);
