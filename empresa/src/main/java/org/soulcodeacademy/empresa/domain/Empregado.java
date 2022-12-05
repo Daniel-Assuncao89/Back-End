@@ -16,7 +16,7 @@ public class Empregado {
     @Column(nullable = false)
     private Double salario;
 
-    @OneToOne
+    @OneToOne // (cascade = CascadeType.REMOVE) outra forma de deletar o endereço.
     @JoinColumn(name = "id_endereco", nullable = false)
     private Endereco endereco;
 

@@ -1,5 +1,8 @@
 package org.soulcodeacademy.empresa.domain;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +15,7 @@ public class Dependente {
     @Column(nullable = false)
     private Integer idade;
     @ManyToOne
+    @OnDelete( action = OnDeleteAction.CASCADE )
     @JoinColumn(name = "id_empregado", nullable = false)
     private Empregado responsavel;
 

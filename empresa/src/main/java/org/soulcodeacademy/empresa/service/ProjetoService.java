@@ -24,12 +24,15 @@ public class ProjetoService {
     }
 
     public Projeto salvar(ProjetoDTO dto){
+
+
         Projeto projeto = new Projeto(null, dto.getNome(), dto.getOrcamento(), dto.getDescricao());
 
         return this.projetoRepository.save(projeto);
     }
 
     public Projeto atualizar(Integer idProjeto, ProjetoDTO dto){
+
        Projeto projeto = this.getProjeto(idProjeto);
        projeto.setDescricao(dto.getDescricao());
        projeto.setNome(dto.getNome());

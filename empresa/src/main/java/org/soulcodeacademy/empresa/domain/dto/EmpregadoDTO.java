@@ -3,6 +3,7 @@ package org.soulcodeacademy.empresa.domain.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class EmpregadoDTO {
 
@@ -17,7 +18,7 @@ public class EmpregadoDTO {
     @NotNull(message = "IdEndereço é obrigatório")
     private Integer idEndereco;
 
-    private Integer idProjeto;
+    private List<Integer> idProjeto;
 
     public String getNome() {
         return nome;
@@ -51,11 +52,11 @@ public class EmpregadoDTO {
         this.idEndereco = idEndereco;
     }
 
-    public Integer getIdProjeto() {
+    public List<Integer> getIdProjeto() {
         return idProjeto;
     }
 
-    public void setIdProjeto(Integer idProjeto) {
+    public void setIdProjeto(List<Integer> idProjeto) {
         this.idProjeto = idProjeto;
     }
 }

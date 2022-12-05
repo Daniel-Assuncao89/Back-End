@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,21 +56,40 @@ public class EmpregadoService {
         Empregado empregado = new Empregado(null, dto.getNome(), dto.getEmail(), dto.getSalario());
         empregado.setEndereco(endereco);
 
+        for(Empregado emp : this.listar()){
+            if(emp.getEndereco() != endereco){
+                empregado.setEndereco(endereco);
+            }else{
+                throw new ParametrosInsuficientesError("Endereço em utilização");
+            }
+        }
+
         return this.empregadoRepository.save(empregado);
     }
 
     public Empregado atualizar(Integer idEmpregado, EmpregadoDTO dto){
         Empregado empregado = this.getEmpregado(idEmpregado);
-
-        Projeto projeto = projetoService.getProjeto(dto.getIdProjeto());
-
         Endereco endereco = enderecoService.getEndereco(dto.getIdEndereco());
-        empregado.setEndereco(endereco);
 
-        empregado.setEndereco(endereco);
+        List<Projeto> projetos = new ArrayList<>();
+
+        for(Integer idProjeto : dto.getIdProjeto()){
+            Projeto projeto = this.projetoService.getProjeto(idProjeto);
+            projetos.add(projeto);
+        }
+
+        for(Empregado emp : this.listar()){
+            if(emp.getEndereco() != endereco){
+                empregado.setEndereco(endereco);
+            }else{
+                throw new ParametrosInsuficientesError("Endereço em utilização");
+            }
+        }
+
+        empregado.setSalario(dto.getSalario());
         empregado.setEmail(dto.getEmail());
         empregado.setNome(dto.getNome());
-        empregado.getProjetos().add(projeto);
+        empregado.setProjetos(projetos);
 
         return this.empregadoRepository.save(empregado);
     }

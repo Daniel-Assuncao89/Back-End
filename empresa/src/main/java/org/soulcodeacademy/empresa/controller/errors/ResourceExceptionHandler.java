@@ -4,6 +4,7 @@ import org.soulcodeacademy.empresa.service.errors.ParametrosInsuficientesError;
 import org.soulcodeacademy.empresa.service.errors.RecursoNaoEncontradoError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -50,4 +51,33 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomErrorResponse> methodArgumentNotValid(MethodArgumentNotValidException erro, HttpServletRequest request){
+        CustomErrorResponse response = new CustomErrorResponse();
+
+        response.setTimestamp(LocalDateTime.now());
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setMessage(erro.getMessage());
+        response.setPath(request.getRequestURI());
+
+        System.out.println(erro.getFieldErrors());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
+//    Outra forma de mostrar o erro do MethodArgumentNotValidException
+//    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValidException(
+//            MethodArgumentNotValidException errors) {
+//        Map<String, Object> errorMap = new HashMap<String, Object>();
+//        errorMap.put("hasErrors", "true");
+//        errorMap.put("developerMessage", "There are validation issues, please provide valid inputs");
+//        errorMap.put("userMessage", "Please provide valid inputs");
+//        errorMap.put("moreInfo", errors.getMessage());
+//        errorMap.put("errorCode", HttpStatus.BAD_REQUEST);
+//        errors.printStackTrace();
+//        for (FieldError error : errors.getBindingResult().getFieldErrors()) {
+//            errorMap.put(error.getField(), error.getDefaultMessage());
+//        }
+//        return new ResponseEntity<Map<String, Object>>(errorMap, HttpStatus.BAD_REQUEST);
+//    }
