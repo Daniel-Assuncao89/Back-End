@@ -58,7 +58,7 @@ public class ResourceExceptionHandler {
 
         response.setTimestamp(LocalDateTime.now());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
-        response.setMessage(erro.getMessage());
+        response.setFieldErrorList(erro.getFieldErrors());
         response.setPath(request.getRequestURI());
 
         System.out.println(erro.getFieldErrors());

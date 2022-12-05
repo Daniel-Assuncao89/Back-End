@@ -1,6 +1,9 @@
 package org.soulcodeacademy.empresa.controller.errors;
 
+import org.springframework.validation.FieldError;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class CustomErrorResponse {
 
@@ -11,6 +14,8 @@ public class CustomErrorResponse {
     private LocalDateTime timestamp;
 
     private String path;
+
+    private List<FieldError> fieldErrorList;
 
     public String getMessage() {
         return message;
@@ -42,5 +47,13 @@ public class CustomErrorResponse {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public List<FieldError> getFieldErrorList() {
+        return fieldErrorList;
+    }
+
+    public void setFieldErrorList(List<FieldError> fieldErrorList) {
+        this.fieldErrorList = fieldErrorList;
     }
 }
